@@ -28,23 +28,38 @@ class Tree {
 
         return node;
     }
+
+    insert(value, node = this.root) {
+        if (node === null) return new Node(value);
+
+        if (value === node.data) {
+            throw `Cannot insert ${value} as it is already in this tree.`;
+        }
+        else if (value < node.data) {
+            node.left = this.insert(value, node.left);
+        }
+        else {
+            node.right = this.insert(value, node.right);
+        }
+        return node;
+    }
 }
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
+const printTree = (node, prefix = '', isLeft = true) => {
     if (node === null) {
         return;
     }
     if (node.right !== null) {
-        prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        printTree(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
     if (node.left !== null) {
-        prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        printTree(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
 };
 
 const randomArr = () => {
-    const length = Math.floor(Math.random() * 5) + 2;
+    const length = Math.floor(Math.random() * 4) + 4;
     const arr = [];
 
     for (let i = 0; i < length; i++) {
@@ -55,5 +70,16 @@ const randomArr = () => {
     return arr;
 };
 
+
 const tree = new Tree(randomArr());
-prettyPrint(tree.root);
+printTree(tree.root);
+console.log('Attempting to insert 54');
+
+try {
+    tree.insert(54);
+    console.log('Success!');
+    printTree(tree.root);
+}
+catch (e) {
+    console.log(e);
+}
