@@ -116,4 +116,29 @@ class LinkedList {
         str += 'null';
         return str;
     }
+
+    insertNode(value, index) {
+        if (index >= this.size()) {
+            return console.error(`Index ${index} is beyond the size of this list. Unable to insert value.`);
+        }
+
+        const temp = new Node(null, this.nodeAt(index));
+        const newNode = new Node(value);
+
+        this.nodeAt(index - 1).next = newNode;
+        newNode.next = temp.next;
+        temp.next = null; // delete temp
+    }
+
+    removeNodeAt(index) {
+        if (index >= this.size()) {
+            return console.error(`Index ${index} is beyond the size of this list. Unable to remove this node.`);
+        }
+
+        const prevNode = this.nodeAt(index - 1);
+        const nodeToRemove = prevNode.next;
+
+        prevNode.next = prevNode.next.next;
+        nodeToRemove.next = null;
+    }
 }
