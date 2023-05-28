@@ -43,6 +43,37 @@ class Tree {
         }
         return node;
     }
+
+    delete(value, node = this.root) {
+        if (node === null) throw `Cannot delete ${value} as it is not in this tree.`;
+
+        if (value < node.data) {
+            node.left = this.delete(value, node.left);
+        }
+        else if (value > node.data) {
+            node.right = this.delete(value, node.right);
+        }
+        else {
+            // * for leaf/single-child nodes
+            if (node.left === null) return node.right;
+            if (node.right === null) return node.left;
+
+            // * handle two-child nodes
+            // * make node.data the smallest value of right subtree then delete that node the value came from
+            node.data = this.min(node.right);
+            node.right = this.delete(node.data, node.right);
+        }
+        return node;
+    }
+
+    min(node) {
+        let min = node.data;
+        while (node.left !== null) {
+            min = node.left.data;
+            node = node.left;
+        }
+        return min;
+    }
 }
 
 const printTree = (node, prefix = '', isLeft = true) => {
@@ -73,13 +104,25 @@ const randomArr = () => {
 
 const tree = new Tree(randomArr());
 printTree(tree.root);
-console.log('Attempting to insert 54');
 
+const valueToInsert = Math.floor(Math.random() * 100);
+console.log(`\nAttempting to insert ${valueToInsert}`);
 try {
-    tree.insert(54);
-    console.log('Success!');
+    tree.insert(valueToInsert);
+    console.log('Successful insertion!');
     printTree(tree.root);
 }
 catch (e) {
-    console.log(e);
+    console.error(e);
+}
+
+const valueToDelete = Math.floor(Math.random() * 100);
+console.log(`\nAttempting to delete ${valueToDelete}`);
+try {
+    tree.delete(valueToDelete);
+    console.log('Successful delete!');
+    printTree(tree.root);
+}
+catch (e) {
+    console.error(e);
 }
