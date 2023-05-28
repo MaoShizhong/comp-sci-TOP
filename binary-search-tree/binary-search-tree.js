@@ -12,6 +12,9 @@ class Tree {
             throw new TypeError('An array is required');
         }
         this.root = this.buildTree([...new Set(arr)].sort((a, b) => a - b));
+        this.preOrderArr = [];
+        this.inOrderArr = [];
+        this.postOrderArr = [];
     }
 
     buildTree(arr) {
@@ -74,6 +77,83 @@ class Tree {
         }
         return min;
     }
+
+    find(value) {
+        let node = this.root;
+
+        while (node !== null && node.data !== value) {
+            node = value < node.data ? node.left : node.right;
+        }
+
+        return node === null ? `${value} is not in this tree.` : node;
+    }
+
+    // * callback is the func to "do something" with the node given to it e.g. log/push to array etc.
+    levelOrder(callback) {
+        const resultsIfNoCallback = [];
+        const queue = [this.root];
+
+        while (queue.length) {
+            const currentNode = queue[0];
+
+            if (callback) callback(currentNode);
+            else resultsIfNoCallback.push(currentNode);
+
+            if (currentNode.left) queue.push(currentNode.left);
+            if (currentNode.right) queue.push(currentNode.right);
+            queue.shift();
+        }
+
+        if (!callback) return resultsIfNoCallback;
+    }
+
+    preOrder(callback, node = this.root) {
+        if (node === null) return;
+
+        if (callback) callback(node);
+        else {
+            // * resets array 
+            if (node === this.root) this.preOrderArr.length = 0;
+
+            this.preOrderArr.push(node);
+            this.preOrder(callback, node.left);
+            this.preOrder(callback, node.right);
+        }
+
+        if (node === this.root) return this.preOrderArr;
+    }
+
+    inOrder(callback, node = this.root) {
+        if (node === null) return;
+
+        if (callback) callback(node);
+        else {
+            // * resets array 
+            if (node === this.root) this.inOrderArr.length = 0;
+
+            this.inOrder(callback, node.left);
+            this.inOrderArr.push(node);
+            this.inOrder(callback, node.right);
+        }
+
+        if (node === this.root) return this.inOrderArr;
+    }
+
+    postOrder(callback, node = this.root) {
+        if (node === null) return;
+
+        if (callback) callback(node);
+        else {
+            // * resets array 
+            if (node === this.root) this.postOrderArr.length = 0;
+
+            this.postOrder(callback, node.left);
+            this.postOrder(callback, node.right);
+            this.postOrderArr.push(node);
+        }
+
+        if (node === this.root) return this.postOrderArr;
+    }
 }
 
 const printTree = (node, prefix = '', isLeft = true) => {
@@ -90,7 +170,7 @@ const printTree = (node, prefix = '', isLeft = true) => {
 };
 
 const randomArr = () => {
-    const length = Math.floor(Math.random() * 4) + 4;
+    const length = Math.floor(Math.random() * 5) + 4;
     const arr = [];
 
     for (let i = 0; i < length; i++) {
@@ -126,3 +206,6 @@ try {
 catch (e) {
     console.error(e);
 }
+
+console.log(tree.find(53));
+console.log(tree.find(54));
