@@ -168,6 +168,15 @@ class Tree {
 
         return Math.max(heightOfLeft, heightOfRight) + 1;
     }
+
+    depth(node, root = this.root, depth = 0) {
+        if (root === null) return -1;
+        if (root === node) return depth;
+
+        const depthOfLeft = this.depth(node, root.left, depth + 1);
+        const depthOfRight = this.depth(node, root.right, depth + 1);
+        return Math.max(depthOfLeft, depthOfRight);
+    }
 }
 
 
@@ -200,49 +209,50 @@ const randomArr = () => {
 
 // ! testing
 
-// {
-//     const tree = new Tree([...randomArr(), 54]);
-//     printTree(tree.root);
+{
+    const tree = new Tree([...randomArr(), 54]);
+    printTree(tree.root);
+    console.log();
 
-//     const valueToInsert = Math.floor(Math.random() * 100);
-//     console.log(`\nAttempting to insert ${valueToInsert}`);
-//     try {
-//         tree.insert(valueToInsert);
-//         console.log('Successful insertion!');
-//         printTree(tree.root);
-//     }
-//     catch (e) {
-//         console.error(e);
-//     }
+    // const valueToInsert = Math.floor(Math.random() * 100);
+    // console.log(`\nAttempting to insert ${valueToInsert}`);
+    // try {
+    //     tree.insert(valueToInsert);
+    //     console.log('Successful insertion!');
+    //     printTree(tree.root);
+    // }
+    // catch (e) {
+    //     console.error(e);
+    // }
 
-//     const valueToDelete = Math.floor(Math.random() * 100);
-//     console.log(`\nAttempting to delete ${valueToDelete}`);
-//     try {
-//         tree.delete(valueToDelete);
-//         console.log('Successful delete!');
-//         printTree(tree.root);
-//     }
-//     catch (e) {
-//         console.error(e);
-//     }
+    // const valueToDelete = Math.floor(Math.random() * 100);
+    // console.log(`\nAttempting to delete ${valueToDelete}`);
+    // try {
+    //     tree.delete(valueToDelete);
+    //     console.log('Successful delete!');
+    //     printTree(tree.root);
+    // }
+    // catch (e) {
+    //     console.error(e);
+    // }
 
-//     console.log(tree.find(53));
-//     console.log(tree.find(54));
+    // console.log(tree.find(53));
+    // console.log(tree.find(54));
 
-//     try {
-//         console.log('Attempting height of 53');
-//         console.log(tree.height(53));
-//     }
-//     catch (e) {
-//         console.error(e);
-//         console.log();
-//     }
+    try {
+        console.log('Attempting height of 53');
+        console.log(tree.height(53));
+    }
+    catch (e) {
+        console.error(e);
+        console.log();
+    }
 
-//     try {
-//         console.log('Attempting height of 54');
-//         console.log(tree.height(tree.find(54)));
-//     }
-//     catch (e) {
-//         console.error(e);
-//     }
-// }
+    try {
+        console.log('Attempting height of 54');
+        console.log('Height is: ' + tree.height(tree.find(54)));
+    }
+    catch (e) {
+        console.error(e);
+    }
+}
