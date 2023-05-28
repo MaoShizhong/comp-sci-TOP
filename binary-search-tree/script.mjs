@@ -29,7 +29,7 @@ console.log(`${str.slice(0, -2)}\n`);
 
 printTree(tree.root);
 console.log(`\nThe tree is ${tree.isBalanced() ? '' : 'not'} balanced.\n`);
-tree.rebalance(); // ! will return error as already balanced
+tree.rebalance();
 printTree(tree.root);
 
 console.log(`\nLevel-order: [${tree.levelOrder().map(node => ` ${node.data}`)} ]`);
