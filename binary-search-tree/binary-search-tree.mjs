@@ -6,7 +6,7 @@ class Node {
     }
 }
 
-class Tree {
+export class Tree {
     constructor(arr) {
         if (!Array.isArray(arr)) {
             throw new TypeError('An array is required');
@@ -187,15 +187,17 @@ class Tree {
     }
 
     rebalance() {
-        if (this.isBalanced()) return console.error('Tree is already balanced!');
+        console.log('Attempting to rebalance...');
+        if (this.isBalanced()) return console.error('Unable to rebalance tree as it is already balanced!\n');
 
         const newSortedValues = this.preOrder().map(node => node.data).sort((a, b) => a - b);
         this.root = this.buildTree(newSortedValues);
+        return console.log('Tree successfully rebalanced.\n');
     }
 }
 
 
-const printTree = (node, prefix = '', isLeft = true) => {
+export const printTree = (node, prefix = '', isLeft = true) => {
     if (node === null) {
         return;
     }
@@ -208,14 +210,12 @@ const printTree = (node, prefix = '', isLeft = true) => {
     }
 };
 
-const randomArr = () => {
-    const length = Math.floor(Math.random() * 5) + 4;
+export const randomArr = () => {
+    const length = Math.floor(Math.random() * 7) + 4;
     const arr = [];
 
     for (let i = 0; i < length; i++) {
         arr.push(Math.floor(Math.random() * 100));
     }
-    console.log('pre-sort:      ', arr);
-    console.log('post-sort-set: ', [...new Set(arr)].sort((a, b) => a - b));
     return arr;
 };
