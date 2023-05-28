@@ -177,6 +177,21 @@ class Tree {
         const depthOfRight = this.depth(node, root.right, depth + 1);
         return Math.max(depthOfLeft, depthOfRight);
     }
+
+    isBalanced(node = this.root) {
+        if (node === null) return true;
+
+        const subtreeHeightDiff = Math.abs(this.height(node.left) - this.height(node.right));
+
+        return subtreeHeightDiff < 2 && this.isBalanced(node.left) && this.isBalanced(node.right);
+    }
+
+    rebalance() {
+        if (this.isBalanced()) return console.error('Tree is already balanced!');
+
+        const newSortedValues = this.preOrder().map(node => node.data).sort((a, b) => a - b);
+        this.root = this.buildTree(newSortedValues);
+    }
 }
 
 
@@ -204,55 +219,3 @@ const randomArr = () => {
     console.log('post-sort-set: ', [...new Set(arr)].sort((a, b) => a - b));
     return arr;
 };
-
-
-
-// ! testing
-
-{
-    const tree = new Tree([...randomArr(), 54]);
-    printTree(tree.root);
-    console.log();
-
-    // const valueToInsert = Math.floor(Math.random() * 100);
-    // console.log(`\nAttempting to insert ${valueToInsert}`);
-    // try {
-    //     tree.insert(valueToInsert);
-    //     console.log('Successful insertion!');
-    //     printTree(tree.root);
-    // }
-    // catch (e) {
-    //     console.error(e);
-    // }
-
-    // const valueToDelete = Math.floor(Math.random() * 100);
-    // console.log(`\nAttempting to delete ${valueToDelete}`);
-    // try {
-    //     tree.delete(valueToDelete);
-    //     console.log('Successful delete!');
-    //     printTree(tree.root);
-    // }
-    // catch (e) {
-    //     console.error(e);
-    // }
-
-    // console.log(tree.find(53));
-    // console.log(tree.find(54));
-
-    try {
-        console.log('Attempting height of 53');
-        console.log(tree.height(53));
-    }
-    catch (e) {
-        console.error(e);
-        console.log();
-    }
-
-    try {
-        console.log('Attempting height of 54');
-        console.log('Height is: ' + tree.height(tree.find(54)));
-    }
-    catch (e) {
-        console.error(e);
-    }
-}
