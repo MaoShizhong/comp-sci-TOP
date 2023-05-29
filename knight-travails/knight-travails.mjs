@@ -50,6 +50,7 @@ function sanitiseInput(input) {
     }
 }
 
+// * will attempt paths in ascending order of moves required
 export function printShortestKnightPath(startSquare, targetSquare, graph) {
     // * allow algebraic notation (as string or array) or array with only 1-8
     startSquare = sanitiseInput(startSquare);
@@ -64,6 +65,8 @@ export function printShortestKnightPath(startSquare, targetSquare, graph) {
         const currentPath = pathsToTest.shift();
         const currentSquare = currentPath.at(-1);
 
+        // * return as soon as it starts testing paths longer than the shortest confirmed path length
+        // * therefore all permutations of the shortest confirmed length will be printed
         if (currentPath.length - 1 > shortestLength) {
             return console.log(`\n${shortestLength} ${shortestLength === 1 ? 'move' : 'moves'} required${shortestLength === 0 ? ' - you are already there!' : ''}\n`);
         }
