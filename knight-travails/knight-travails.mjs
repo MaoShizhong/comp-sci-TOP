@@ -38,7 +38,7 @@ function sanitiseInput(input) {
             return [num, input[1]];
         }
         else {
-            throw new RangeError(`${input} is not a valid chess square.`);
+            throw new RangeError(`\n${input} is not a valid chess square.\n`);
         }
     }
     else if (/^[a-h][1-8]$/i.test(input)) {
@@ -46,8 +46,7 @@ function sanitiseInput(input) {
         return [num, +input[1]];
     }
     else {
-        throw new RangeError(`${input} is either not a valid chess square or invalid syntax.
-        Valid syntax forms (case-insensitive, A-H or 1-8): [1, 1], [A, 6], E4`);
+        throw new RangeError(`\n'${input}' is either not a valid chess square or invalid syntax.\nValid syntax forms (case-insensitive; A-H or 1-8): [1, 1], [A, 6], 'E4'\n`);
     }
 }
 
@@ -66,7 +65,7 @@ export function printShortestKnightPath(startSquare, targetSquare, graph) {
         const currentSquare = currentPath.at(-1);
 
         if (currentPath.length - 1 > shortestLength) {
-            return console.log(`\n${shortestLength} ${shortestLength === 1 ? 'move' : 'moves'} required${shortestLength === 0 ? ' - you are already there!' : ''}`);
+            return console.log(`\n${shortestLength} ${shortestLength === 1 ? 'move' : 'moves'} required${shortestLength === 0 ? ' - you are already there!' : ''}\n`);
         }
 
         if (currentSquare.every((el, i) => el === targetSquare[i])) {
