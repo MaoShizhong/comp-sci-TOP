@@ -25,6 +25,7 @@ export function createGraph(board, offsets) {
             }
         });
     });
+    console.log(graph);
     return graph;
 }
 
@@ -46,7 +47,7 @@ function sanitiseInput(input) {
         return [num, +input[1]];
     }
     else {
-        throw new RangeError(`\n'${input}' is either not a valid chess square or invalid syntax.\nValid syntax forms (case-insensitive; A-H or 1-8): [1, 1], [A, 6], 'E4'\n`);
+        throw new RangeError(`\n'${input}' is either not a valid chess square or invalid syntax.\nValid syntax forms (case-insensitive; A-H or 1-8): [1, 1], ['A', 6], 'E4'\n`);
     }
 }
 
